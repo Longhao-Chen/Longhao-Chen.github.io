@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="zh" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="zh" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>快速入门 &mdash; OpenPGP-Web的说明文档  文档</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="一些理论" href="一些理论.html" />
+    <link rel="prev" title="用户手册" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> OpenPGP-Web的说明文档
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">用户手册</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">快速入门</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">关于公钥加密算法（非对称加密算法）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">一些名词的简单解释：</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#openpgp">关于OpenPGP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#openpgp-web">OpenPGP-Web 使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">1.如何生成密钥对</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">2.如何给别人加密信息</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">3.如何解密被加密的信息</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">4.如何创建明文签名</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">5.如何验证明文签名</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">6.关于密钥尺寸</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">7.如何迁移密钥</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">8.对称加密</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">如何判断对方发过来的是公钥、私钥、密文还是签名</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">关于本程序的安全性</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="一些理论.html">一些理论</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../开发者文档/index.html">开发者文档</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">OpenPGP-Web的说明文档</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">用户手册</a> &raquo;</li>
+        
+      <li>快速入门</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/用户手册/快速入门.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>快速入门<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>OpenPGP-Web 是一个符合 OpenPGP 标准的非对称加密程序，如果您了解非对称加密算法或之前使用过 GnuPG 您可以跳过此章节。</p>
+<div class="section" id="id2">
+<h2>关于公钥加密算法（非对称加密算法）<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h3>一些名词的简单解释：<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>公钥：此密钥是公开的，别人可以使用此密钥对信息进行加密，加密后的信息只能使用与公钥相对应的私钥解密；由你的私钥签名的信息也只能由相对应的公钥进行验证。</p></li>
+<li><p>私钥：<strong>此密钥需要严格保密</strong> ，私钥可以解密由相对应公钥加密的信息，也可以对信息进行数字签名。</p></li>
+<li><p>吊销密钥： <strong>此密钥也需要严格保密</strong> ，如果你的私钥发生泄露，你可以用此密钥撤销别人对你的公钥的信任。</p></li>
+<li><p>密钥对：指相配套的公钥和私钥和吊销密钥。</p></li>
+<li><p>数字签名：数字签名就是使用私钥对被签名的信息生成一段特殊信息，这段信息只能由这把私钥生成并可以由相对应的公钥验证，
+如果信息被篡改，那么验证就会发现问题。所以数字签名保证了信息的不可篡改性和不可抵赖性。</p></li>
+<li><p>明文：未被加密的信息。</p></li>
+<li><p>密文：被加密的信息。</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="openpgp">
+<h2>关于OpenPGP<a class="headerlink" href="#openpgp" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>OpenPGP 是一种加密的标准，并不是一种特定的软件。</p>
+<p>这个加密标准由IETF(Internet Engineering Task Force)制定, 标准原文见 <a class="reference external" href="http://www.ietf.org/rfc/rfc4880.txt">RFC4880</a>。</p>
+<p>根据这个标准有很多的相关的软件的实现，本程序就是其中的一个实现，在所有实现中最出名的就是 <code class="docutils literal notranslate"><span class="pre">GnuPG</span></code> ，
+所有符合 OpenPGP 标准的实现都可以相互兼容，也就是说你使用本程序加密的信息是可以用 GnuPG 及其他符合 OpenPGP 规范的程序进行解密，
+同理，使用 GnuPG 及其他符合 OpenPGP 规范的程序加密的信息也可以用本程序解密。</p>
+</div></blockquote>
+</div>
+<div class="section" id="openpgp-web">
+<h2>OpenPGP-Web 使用方法<a class="headerlink" href="#openpgp-web" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id4">
+<h3>1.如何生成密钥对<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>进入 <code class="docutils literal notranslate"><span class="pre">密钥管理</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">生成一个密钥对</span></code>。</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">姓名</span></code> 处输入你的姓名，在 <code class="docutils literal notranslate"><span class="pre">电子邮件</span></code> 处输入你的电子邮件（如果你没有你可以将此项留空），在 <code class="docutils literal notranslate"><span class="pre">私钥密码</span></code> 处输入你要设置的私钥密码。</p></li>
+<li><p>上述设置完成后，点击 <code class="docutils literal notranslate"><span class="pre">确认生成此密钥</span></code> ，这时程序就会开始生成密钥对，生成过程中可能会需要一些时间，但应该会在30秒内完成。</p></li>
+<li><p>密钥对生成后，你可以在下方选择复制密钥或保存密钥。</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h3>2.如何给别人加密信息<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>取得别人的公钥并在 <code class="docutils literal notranslate"><span class="pre">密钥管理</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">添加公钥</span></code> 导入密钥。</p></li>
+<li><p>回到主页面，进入 <code class="docutils literal notranslate"><span class="pre">文本加密</span></code> 。</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">请选择公钥</span></code> 处选择对方的公钥。</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">请选择私钥</span></code> 处选择你要签名用的私钥并在下方输入私钥密码，如果你没有私钥或不想进行数字签名，你可以勾选 <code class="docutils literal notranslate"><span class="pre">禁用签名</span></code> 。</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">请输入要加密信息</span></code> 中输入你要加密的信息，输入完成后，点击 <code class="docutils literal notranslate"><span class="pre">加密和签名</span></code> （如果禁用签名则为 <code class="docutils literal notranslate"><span class="pre">加密</span></code> ），
+加密完成后，在下方就会出现加密后的信息，你现在就可以把这个信息发送给对方。</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h3>3.如何解密被加密的信息<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>如果你已经添加了私钥，可以直接看第二点。在 <code class="docutils literal notranslate"><span class="pre">密钥管理</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">添加私钥</span></code> 添加相对应的私钥。</p></li>
+<li><p>回到主界面，进入 <code class="docutils literal notranslate"><span class="pre">文本解密或验证签名</span></code> 。</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">请粘贴密文或明文签名</span></code> 处输入被加密的信息，完成后点击 <code class="docutils literal notranslate"><span class="pre">解密或验证签名</span></code> ，然后在弹出框中输入私钥密码，如果没有错误，界面下方就会出现解密后的信息。</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="id7">
+<h3>4.如何创建明文签名<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>按上述步骤添加私钥。</p></li>
+<li><p>进入 <code class="docutils literal notranslate"><span class="pre">创建明文签名</span></code> ，在 <code class="docutils literal notranslate"><span class="pre">请选择私钥</span></code> 处选择签名使用的私钥并输入私钥密码。</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">请输入要签名的信息</span></code> 处输入要签名的信息，完成后点击 <code class="docutils literal notranslate"><span class="pre">签名</span></code> ，这时界面下方就会出现签名后的信息。</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="id8">
+<h3>5.如何验证明文签名<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>添加签名者的公钥。</p></li>
+<li><p>进入 <code class="docutils literal notranslate"><span class="pre">文本解密或验证签名</span></code> 。</p></li>
+<li><p>在 <code class="docutils literal notranslate"><span class="pre">请粘贴密文或明文签名</span></code> 处粘贴要验证的明文签名，完成后点击 <code class="docutils literal notranslate"><span class="pre">解密或验证签名</span></code> ，如果没有错误则会在界面下方显示 <code class="docutils literal notranslate"><span class="pre">签名有效</span></code> 否则就会出现相应的报错信息。</p></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="id9">
+<h3>6.关于密钥尺寸<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<p>密钥尺寸越大在私钥不泄露的情况下安全期限就越长，但加密解密的速度也就越慢，密钥的大小也越大。通常情况下2048位的密钥已经够用了。</p>
+<p>密钥与安全期限的关系：</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>密钥位数</p></th>
+<th class="head"><p>安全期限</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>2048</p></td>
+<td><p>在2030年之前被认为是安全的</p></td>
+</tr>
+<tr class="row-odd"><td><p>3072</p></td>
+<td><p>在2040年之前被认为是安全的</p></td>
+</tr>
+<tr class="row-even"><td><p>4096</p></td>
+<td><p>在2040年之后若干年内也被认为是安全的</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id10">
+<h3>7.如何迁移密钥<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>拥有密钥的设备（通常是当前正在使用的浏览器或设备），我们用 A 来表示，没有密钥（即将导入密钥的设备或浏览器）我们用 B 表示。</p>
+</div>
+<p>因为每一对密钥都可以说是独一无二的，所以当你打算更换浏览器或者在不同的设备上使用同一对密钥，你就需要把你目前使用的密钥迁移到其他设备或浏览器中。
+具体方法如下：</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>进入 A 中的密钥管理，选择导出密钥，导出你要导出的私钥</p></li>
+<li><p>进入 B 中的密钥管理，选择导入私钥，导入你刚刚导出的私钥</p></li>
+<li><p>重复 1,2 步，直到你迁移完了所有你想要迁移的私钥</p></li>
+<li><p>进入 A 中的密钥管理，选择导出密钥，导出你要导出的公钥</p></li>
+<li><p>进入 B 中的密钥管理，选择导入公钥，导入你刚刚导出的公钥</p></li>
+<li><p>重复 4,5 步，直到你迁移完了所有你想要迁移的公钥</p></li>
+</ol>
+</div></blockquote>
+<p>现在你就可以在 B 设备上使用原来的密钥进行加密解密了</p>
+</div>
+<div class="section" id="id11">
+<h3>8.对称加密<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<div class="section" id="id12">
+<h4>1.使用密码加密<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h4>
+<blockquote>
+<div><p>在 <code class="docutils literal notranslate"><span class="pre">使用密码加密文本</span></code> 中输入你要加密的信息以及使用的密码，再点击加密即可</p>
+</div></blockquote>
+</div>
+<div class="section" id="id13">
+<h4>2.解密使用密码加密的信息<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h4>
+<blockquote>
+<div><p>直接在 <code class="docutils literal notranslate"><span class="pre">文本解密或验证签名</span></code> 中操作即可</p>
+</div></blockquote>
+</div>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>如何判断对方发过来的是公钥、私钥、密文还是签名<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h2>
+<p>判断的方法很简单，只要看文本的开头或结尾就可以了，具体可以参照下面的表格</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 43%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>开头</p></th>
+<th class="head"><p>结尾</p></th>
+<th class="head"><p>类型</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>-----BEGIN PGP PUBLIC KEY BLOCK-----</p></td>
+<td><p>-----END PGP PUBLIC KEY BLOCK-----</p></td>
+<td><p>公钥</p></td>
+</tr>
+<tr class="row-odd"><td><p>-----BEGIN PGP PRIVATE KEY BLOCK-----</p></td>
+<td><p>-----END PGP PRIVATE KEY BLOCK-----</p></td>
+<td><p>私钥</p></td>
+</tr>
+<tr class="row-even"><td><p>-----BEGIN PGP MESSAGE-----</p></td>
+<td><p>-----END PGP MESSAGE-----</p></td>
+<td><p>加密信息</p></td>
+</tr>
+<tr class="row-odd"><td><p>-----BEGIN PGP SIGNED MESSAGE-----</p></td>
+<td><p>-----END PGP SIGNED MESSAGE-----</p></td>
+<td><p>签名信息</p></td>
+</tr>
+<tr class="row-even"><td><p>-----BEGIN PGP SIGNATURE-----</p></td>
+<td><p>-----END PGP SIGNATURE-----</p></td>
+<td><p>签名</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id15">
+<h2>关于本程序的安全性<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>本程序的加密解密以及签名操作使用的是 OpenPGP.js 库，这个库经过了多次的安全审核，安全性是可以保证的。</p>
+<p>本程序的其他部分是由我编写的，所有的操作和数据均在你使用的浏览器中保存，不会有任何数据被上传到网络，
+程序的源代码都可以在 <a class="reference external" href="https://github.com/chenlhlinux/OpenPGP-Web">https://github.com/chenlhlinux/OpenPGP-Web</a> 找到，欢迎进行审核。</p>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="一些理论.html" class="btn btn-neutral float-right" title="一些理论" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="用户手册" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Chen Longhao
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
