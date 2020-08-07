@@ -172,7 +172,7 @@ function PriDelAll() {
 	}
 }
 
-//生成密钥id到保存id的索引
+//生成密钥id到保存id的索引，主要是保证向前
 async function PriGenIndex() {
 	if (typeof (Storage) !== "undefined") {
 		try {
@@ -191,6 +191,7 @@ async function PriGenIndex() {
 			} else {	//防止在未使用持久存储时所产生的未定义错误
 				var Index = new Array();
 				localStorage.prikeysidindex = JSON.stringify(Index);
+				var len = 0;
 			}
 			if (typeof (sessionStorage.prikeys) !== "undefined") {
 				var Index1 = new Array();
@@ -214,10 +215,10 @@ async function PriGenIndex() {
 }
 
 //从密钥id搜索保存id
-function PriSearchId(input) {
+async function PriSearchId(input) {
 	if (typeof (localStorage.prikeys) !== "undefined" || typeof (sessionStorage.prikeys) !== "undefined") {
-		if (typeof (localStorage.prikeysidindex) === "undefined") {
-			PriGenIndex();
+		if (typeof (localStorage.prikeysidindex) === "undefined" && typeof (sessionStorage.prikeysidindex) === "undefined") {
+			await PriGenIndex();
 		}
 		var data = JSON.parse(localStorage.prikeysidindex);
 		for (var i = 0; i < input.length; ++i) {
