@@ -187,9 +187,9 @@
 <blockquote>
 <div><table class="docutils align-default">
 <colgroup>
-<col style="width: 22%" />
-<col style="width: 22%" />
-<col style="width: 56%" />
+<col style="width: 20%" />
+<col style="width: 30%" />
+<col style="width: 51%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>函数原型</p></th>
@@ -223,7 +223,7 @@
 <td></td>
 </tr>
 <tr class="row-even"><td><p>PriSearchId(keyid)</p></td>
-<td><p>从密钥id数组到第一个保存id</p></td>
+<td><p>返回从密钥id数组找到的第一个密钥的保存id</p></td>
 <td><p>出错或没找到返回-1</p></td>
 </tr>
 <tr class="row-odd"><td><p>PriGenIndex()</p></td>
@@ -232,6 +232,10 @@
 </tr>
 <tr class="row-even"><td><p>PriReadName(id)</p></td>
 <td><p>返回指定保存id号的密钥别名</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>PriCover(id, data)</p></td>
+<td><p>用data覆盖指定id号的私钥</p></td>
 <td></td>
 </tr>
 </tbody>
@@ -243,9 +247,9 @@
 <blockquote>
 <div><table class="docutils align-default">
 <colgroup>
-<col style="width: 22%" />
-<col style="width: 22%" />
-<col style="width: 56%" />
+<col style="width: 20%" />
+<col style="width: 30%" />
+<col style="width: 50%" />
 </colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>函数原型</p></th>
@@ -275,7 +279,7 @@
 <td></td>
 </tr>
 <tr class="row-odd"><td><p>PubSearchId(keyid)</p></td>
-<td><p>从密钥id数组到第一个保存id</p></td>
+<td><p>返回从密钥id数组找到的第一个密钥的保存id</p></td>
 <td><p>出错或没找到返回-1</p></td>
 </tr>
 <tr class="row-even"><td><p>PubGenIndex()</p></td>
