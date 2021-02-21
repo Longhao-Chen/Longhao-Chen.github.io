@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<meta name='apple-mobile-web-app-status-bar-style' content='black'>
+<meta name='format-detection' content='telephone=no'>
+<meta charset="utf-8">
+<html>
+
+<head>
+	<title>加密信息给我</title>
+	<link href="pgpweb/css/style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/openpgp/4.10.4/openpgp.min.js"
+		integrity="sha384-/N1ZJTH7aZFvzCM9Jy9dQmQzroYQpB5L2qrNPgYpg1/tbwVDvaqWwGHfHeFhSpcn"
+		crossorigin="anonymous" defer></script>
+	<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"
+		integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"
+		integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd"
+		crossorigin="anonymous" defer></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous" defer></script>
+	<script src="pgpweb/js/dark.js" defer></script>
+	<script src="pgpweb/js/config.js" defer></script>
+	<script src="pgpweb/js/loader.js" defer></script>
+	<script src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"
+		integrity="sha384-x6nRSkfSsKGBsvlLFHHNju+buS3zYUztVnTRz/0JKgOIk3ulS6bNce/vHOvYE2eY"
+		crossorigin="anonymous" defer></script>
+</head>
+
+<body class="container-fluid center">
+	<div class="loader"></div>
+	<script>
+		//加密和签名部分
+		async function encrypt() {
+			var publicKeyArmored = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mDMEXzSv8hYJKwYBBAHaRw8BAQdA9uZrGTZwMZK7dZePz0odWlRPdDlVzoiiyF6N
+Lx0tgdm0NUNoZW4gTG9uZ2hhbyAoQ2hlbiBMb25naGFvKSA8Y2hlbmxobGludXhA
+b3V0bG9vay5jb20+iJAEExYIADgWIQSXPkMjqHHmyexbUK2QRc3cLNKG1gUCXzSv
+8gIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCQRc3cLNKG1u5sAP9j3dD+
+KlUrJKG0bUu03Et1cn51LdG81zaxBRAk8zAU2AEAuZUZEfU6dr6ZwfARyt2lVLVc
+pP8CDC91VR4vSOHfWAyJAjMEEAEKAB0WIQSJYXW+zlozy2buli0XHxeH4H6H0gUC
+Xz+YRwAKCRAXHxeH4H6H0lqSD/0fw81rEoCxX+WiJGtnmUjO83JL22riudhXt44h
+WNNDQMFgKP0BSGGaWWBS8slnXKqAsA8nluPAdfi3U0kCiLZ3eGu7G/FSuL1O+osy
+rRvsd3lxCDOnGFAT18QJQxUR1Zx8uyk8FF3K9Ihy/HiTph09DT8aOZ4tTN0PpdxQ
+tLPlalzp5L8Su7qwY5RPnjwJ34qRdnnobxPFqSbeCPlbniHoGkU6UqiIWO+Ua9A1
+oI5e8d97AorkzzHCxiUmM2UD6jaV9gAIqPfx+b9M8z5ekGpNkudPUC8P0f6jVGBj
+IPuGeS8rjr9rpYRT0+YvAW6eKBFq0/ZszU0gM5halBrOIt+Bnz04m0dfn59nE/8H
+JNHVeZ6trENOCw7dY8yji0TgNlOfKb8kE8VsC9OiS+ArUH73NpOqwjO4/UZ8HijB
+UiCm5xtqATRLEZU7PI+3WtlfqMbg7jh8zF+tVAa1IbHwvycd5se33tynb6Y8YoMX
+zqR9N5ETcxm8nibRWSKQ+qq6Apdw9sMfDRJ+dvZM+WN49avwD328BO2+nNBdEaBa
+2e9Vq65NbE6c/zZ+LHFVtcB7/Npt7RSFu+VhDlaV88HTwq9+EtYgEYYkVF/RMZsQ
+H5nmj1LwuGCBU7izDcboDG4Y0lX2BYFt5nyVLTXCTxIKq5lzoE+caj6ELFm5E7SM
+RaDfNLQnTG9uZ2hhby5DaGVuIDxMb25naGFvLkNoZW5Ab3V0bG9vay5jb20+iIkE
+ExYKABoECwkIBwIVCgIWAQIZAQWCX9JBrAKeAQKbAwAhCRCQRc3cLNKG1hYhBJc+
+QyOocebJ7FtQrZBFzdws0obWF/0A/2IlfJwHhXfNNLgpSZeq8sAasnIK83v0KZpT
+vRPJeIPdAP9wSNV2hCoxSpSZVoG3eYJrO+zDJUECm5vbO4nlMq7kBrg4BF80r/IS
+CisGAQQBl1UBBQEBB0A1c+uhXadUCzsJj3UlCe22bkWYgIAOrula4d/k51sLKwMB
+CAeIeAQYFggAIBYhBJc+QyOocebJ7FtQrZBFzdws0obWBQJfNK/yAhsMAAoJEJBF
+zdws0obWwl0BAMq6ehJK4uI7IJYbZtWqcq87Do8yxtHQTpLX0W9uQv8SAQDxDSUt
+N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
+=vvRR
+-----END PGP PUBLIC KEY BLOCK-----`;
+				try {
+					const { data: encrypted } = await openpgp.encrypt({
+						message: openpgp.message.fromText(document.getElementById("text").value),	// input as Message object
+						publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys	// for encryption
+					});
+					document.getElementById("output").value = encrypted;
+				} catch (e) {
+					window.alert("加密错误\n错误代码:" + e);
+					throw new Error(e);
+				}
+			await openpgp.destroyWorker();
+			$("#output").show("slow");
+			$("#copy").show("slow");
+		}
+	</script>
+	<script>
+		//清空和隐藏文本框
+		function cleanall() {
+			if (window.confirm("确认清空文本框？")) {
+				document.getElementById("text").value = '';
+				document.getElementById("output").value = ''
+				$("#output").hide();
+				$("#copy").hide();
+			}
+		}
+	</script>
+	<script>
+		$(function () {
+			$("#output").hide();
+			$("#copy").hide();
+		})
+	</script>
+	<script>
+		//复制部分的代码
+		$(function () {
+			var clipboard = new ClipboardJS('#copy');
+			clipboard.on('success', function (e) {
+				e.clearSelection();
+				document.getElementById("copy").innerHTML = "已复制";
+				setTimeout(function () { document.getElementById("copy").innerHTML = "复制输出"; }, 2000);
+			});
+			clipboard.on('error', function (e) {
+				alert('复制失败，您的浏览器不支持！');
+			});
+		});
+	</script>
+	<h1>加密信息给我</h1>
+	<textarea id="text" rows="10" class="textarea-inherit" placeholder="请输入要加密的信息"></textarea><br>
+	<div class="row mx-auto" style="width: 95%;">
+		<button type="button" onclick="encrypt()" class="onlyencript col btn btn-primary">加密</button>
+		<button data-clipboard-target="#output" id="copy" class="col btn btn-primary">复制输出</button>
+		<button type="button" class="btn btn-danger" onclick="cleanall()">清空文本框</button><br>
+	</div>
+	<textarea id="output" rows="10" class="textarea-inherit" readonly></textarea>
+</body>
+
+</html>
