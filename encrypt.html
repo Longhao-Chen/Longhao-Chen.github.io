@@ -33,9 +33,8 @@
 <body class="container-fluid center">
 	<div class="loader"></div>
 	<script>
-		//加密和签名部分
-		async function encrypt() {
-			var publicKeyArmored = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+		//公钥
+		publicKeyArmored = `-----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mDMEXzSv8hYJKwYBBAHaRw8BAQdA9uZrGTZwMZK7dZePz0odWlRPdDlVzoiiyF6N
 Lx0tgdm0NUNoZW4gTG9uZ2hhbyAoQ2hlbiBMb25naGFvKSA8Y2hlbmxobGludXhA
@@ -64,19 +63,58 @@ zdws0obWwl0BAMq6ehJK4uI7IJYbZtWqcq87Do8yxtHQTpLX0W9uQv8SAQDxDSUt
 N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 =vvRR
 -----END PGP PUBLIC KEY BLOCK-----`;
-				try {
-					const { data: encrypted } = await openpgp.encrypt({
-						message: openpgp.message.fromText(document.getElementById("text").value),	// input as Message object
-						publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys	// for encryption
-					});
-					document.getElementById("output").value = encrypted;
-				} catch (e) {
-					window.alert("加密错误\n错误代码:" + e);
-					throw new Error(e);
-				}
+	</script>
+	<script>
+		//加密部分
+		async function encrypt() {
+			$("#output").hide();
+			$("#copy").hide();
+			$("#signmsg").hide();
+			try {
+				const { data: encrypted } = await openpgp.encrypt({
+					message: await openpgp.message.fromText(document.getElementById("text").value),	// input as Message object
+					publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys	// for encryption
+				});
+				document.getElementById("output").value = encrypted;
+			} catch (e) {
+				window.alert("加密错误\n错误代码:" + e);
+				throw new Error(e);
+			}
 			await openpgp.destroyWorker();
 			$("#output").show("slow");
 			$("#copy").show("slow");
+		}
+	</script>
+	<script>
+		//签名验证部分
+		async function verify() {
+			$("#output").hide();
+			$("#copy").hide();
+			$("#signmsg").hide();
+			try {
+				const verified = await openpgp.verify({
+					message: await openpgp.cleartext.readArmored(document.getElementById("text").value),           // parse armored message
+					publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys // for verification
+				});
+				const { valid } = verified.signatures[0];
+				document.getElementById("output").value = verified.data;
+				if (valid) {
+					document.getElementById("signmsg").innerHTML = "签名验证成功，信息未被篡改，由 Longhao.Chen 签署";
+					$("#signmsg").show("slow");
+					$("#copy").show("slow");
+					$("#output").show("slow");
+				} else {
+					$("#signmsg").hide();
+					alert("签名验证失败\n信息被篡改");
+				}
+			} catch (e) {
+				if (e == "Error: Parameter [message] needs to be of type Message or CleartextMessage")
+					window.alert("请输入有效的签名");
+				else
+					window.alert("签名验证错误\n错误代码:" + e);
+				return
+			}
+			await openpgp.destroyWorker();
 		}
 	</script>
 	<script>
@@ -87,6 +125,7 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 				document.getElementById("output").value = ''
 				$("#output").hide();
 				$("#copy").hide();
+				$("#signmsg").hide();
 			}
 		}
 	</script>
@@ -94,6 +133,7 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 		$(function () {
 			$("#output").hide();
 			$("#copy").hide();
+			$("#signmsg").hide();
 		})
 	</script>
 	<script>
@@ -111,12 +151,14 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 		});
 	</script>
 	<h1>加密信息给我</h1>
-	<textarea id="text" rows="10" class="textarea-inherit" placeholder="请输入要加密的信息"></textarea><br>
+	<textarea id="text" rows="10" class="textarea-inherit" placeholder="请输入要加密或验证的信息"></textarea><br>
 	<div class="row mx-auto" style="width: 95%;">
-		<button type="button" onclick="encrypt()" class="onlyencript col btn btn-primary">加密</button>
+		<button type="button" onclick="encrypt()" class="col btn btn-primary">加密</button>
+		<button type="button" onclick="verify()" class="col btn btn-primary">验证签名</button>
 		<button data-clipboard-target="#output" id="copy" class="col btn btn-primary">复制输出</button>
 		<button type="button" class="btn btn-danger" onclick="cleanall()">清空文本框</button><br>
 	</div>
+	<div class="alert alert-success alert-dismissible mx-auto" id="signmsg" style="width: 95%;"></div>
 	<textarea id="output" rows="10" class="textarea-inherit" readonly></textarea>
 </body>
 
