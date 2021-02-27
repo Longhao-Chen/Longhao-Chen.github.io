@@ -71,8 +71,13 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			$("#copy").hide();
 			$("#signmsg").hide();
 			try {
+				if (!document.getElementById("bin_data").checked)
+					var message = await openpgp.message.fromText(document.getElementById("text").value);
+				else
+					var message = await readBin_data();
+
 				const { data: encrypted } = await openpgp.encrypt({
-					message: await openpgp.message.fromText(document.getElementById("text").value),	// input as Message object
+					message: message,	// input as Message object
 					publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys	// for encryption
 				});
 				document.getElementById("output").value = encrypted;
@@ -84,8 +89,7 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			$("#output").show("slow");
 			$("#copy").show("slow");
 		}
-	</script>
-	<script>
+
 		//签名验证部分
 		async function verify() {
 			$("#output").hide();
@@ -116,13 +120,43 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			}
 			await openpgp.destroyWorker();
 		}
+
+		//读取文件，返回Message对象，从全局变量window.bin_file
+		function readBin_data() {
+			return new Promise(async (resolve, reject) => {
+				if (window.bin_file != undefined) {
+					var reader = new FileReader();
+					reader.onload = (async () => {
+						var u8 = new Uint8Array(reader.result)
+						msg = await openpgp.message.fromBinary(
+							u8,
+							window.bin_file.name
+						);
+						resolve(msg);
+					});
+					reader.onerror = () => {
+						throw new Error("读取文件出错");
+					}
+					reader.readAsArrayBuffer(window.bin_file);
+				} else {
+					alert("未上传文件");
+					throw new Error("未上传文件");
+				}
+			});
+		}
+
+		//保存文件信息到全局变量
+		function saveFiles(file) {
+			window.bin_file = file[0];
+		}
 	</script>
 	<script>
 		//清空和隐藏文本框
 		function cleanall() {
 			if (window.confirm("确认清空文本框？")) {
 				document.getElementById("text").value = '';
-				document.getElementById("output").value = ''
+				document.getElementById("output").value = '';
+				window.bin_file = undefined;
 				$("#output").hide();
 				$("#copy").hide();
 				$("#signmsg").hide();
@@ -134,6 +168,27 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			$("#output").hide();
 			$("#copy").hide();
 			$("#signmsg").hide();
+			//判断是否是二进制数据
+			if (document.getElementById("bin_data").checked) {
+				$("#text").hide();
+				$("verify_btn").hide();
+				$("#file").show();
+			} else {
+				$("#text").show();
+				$("verify_btn").show();
+				$("#file").hide();
+			}
+			$("#bin_data").click(function () {
+				if (document.getElementById("bin_data").checked) {
+					$("#text").hide("slow");
+					$("verify_btn").hide("slow");
+					$("#file").show("slow");
+				} else {
+					$("#text").show("slow")
+					$("verify_btn").show("slow");;
+					$("#file").hide("slow");
+				}
+			});
 		})
 	</script>
 	<script>
@@ -151,10 +206,18 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 		});
 	</script>
 	<h1>加密或验证数字签名</h1>
-	<textarea id="text" rows="10" class="textarea-inherit" placeholder="请输入要加密或验证的信息"></textarea><br>
+	<form>
+		<div class="from-check">
+			<label class="from-check-label">
+				<input type="checkbox" id="bin_data">加密二进制数据<br>
+			</label>
+		</div>
+	</form>
+	<textarea id="text" rows="10" class="textarea-inherit" placeholder="请输入要加密或验证的信息"></textarea>
+	<input type="file" id="file" onchange="saveFiles(this.files)" /><br>
 	<div class="row mx-auto" style="width: 95%;">
 		<button type="button" onclick="encrypt()" class="col btn btn-primary">加密</button>
-		<button type="button" onclick="verify()" class="col btn btn-primary">验证签名</button>
+		<button type="button" onclick="verify()" class="col btn btn-primary" id="verify_btn">验证签名</button>
 		<button data-clipboard-target="#output" id="copy" class="col btn btn-primary">复制输出</button>
 		<button type="button" class="btn btn-danger" onclick="cleanall()">清空文本框</button><br>
 	</div>
