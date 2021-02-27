@@ -171,21 +171,21 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			//判断是否是二进制数据
 			if (document.getElementById("bin_data").checked) {
 				$("#text").hide();
-				$("verify_btn").hide();
+				$("#verify_btn").hide();
 				$("#file").show();
 			} else {
 				$("#text").show();
-				$("verify_btn").show();
+				$("#verify_btn").show();
 				$("#file").hide();
 			}
 			$("#bin_data").click(function () {
 				if (document.getElementById("bin_data").checked) {
 					$("#text").hide("slow");
-					$("verify_btn").hide("slow");
+					$("#verify_btn").hide("slow");
 					$("#file").show("slow");
 				} else {
 					$("#text").show("slow")
-					$("verify_btn").show("slow");;
+					$("#verify_btn").show("slow");;
 					$("#file").hide("slow");
 				}
 			});
