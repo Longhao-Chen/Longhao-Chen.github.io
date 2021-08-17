@@ -73,21 +73,38 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			try {
 				if (!document.getElementById("bin_data").checked)
 					var message = await openpgp.message.fromText(document.getElementById("text").value);
-				else
-					var message = await readBin_data();
-
+				else {
+					var u8 = await readBin_data();
+					var message = await openpgp.message.fromBinary(
+						u8,
+						window.bin_file.name
+					);
+					u8Length = u8.length
+					var Efilename = window.bin_file.name + '.pgp';
+				}
 				const { data: encrypted } = await openpgp.encrypt({
 					message: message,	// input as Message object
 					publicKeys: (await openpgp.key.readArmored(publicKeyArmored)).keys	// for encryption
 				});
-				document.getElementById("output").value = encrypted;
+				if (document.getElementById("bin_data").checked) {
+					//小于500k
+					if (u8Length < 500000) {
+						document.getElementById("output").value = encrypted;
+						$("#output").show("slow");
+						$("#copy").show("slow");
+					}
+					document.getElementById("download").onclick = () => download(Efilename, encrypted);
+					$("#download").show("slow");
+				} else {
+					document.getElementById("output").value = encrypted;
+					$("#output").show("slow");
+					$("#copy").show("slow");
+				}
 			} catch (e) {
 				window.alert("加密错误\n错误代码:" + e);
 				throw new Error(e);
 			}
 			await openpgp.destroyWorker();
-			$("#output").show("slow");
-			$("#copy").show("slow");
 		}
 
 		//签名验证部分
@@ -112,7 +129,7 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 					alert("签名验证失败\n信息被篡改");
 				}
 			} catch (e) {
-				if (e == "Error: Parameter [message] needs to be of type Message or CleartextMessage")
+				if (e == "Error: Parameter [message] needs to be of type Message or CleartextMessage" || e == "Error: Misformed armored text")
 					window.alert("请输入有效的签名");
 				else
 					window.alert("签名验证错误\n错误代码:" + e);
@@ -121,18 +138,14 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			await openpgp.destroyWorker();
 		}
 
-		//读取文件，返回Message对象，从全局变量window.bin_file
+		//读取文件，返回Uint8Array对象，从全局变量window.bin_file
 		function readBin_data() {
 			return new Promise(async (resolve, reject) => {
 				if (window.bin_file != undefined) {
 					var reader = new FileReader();
 					reader.onload = (async () => {
-						var u8 = new Uint8Array(reader.result)
-						msg = await openpgp.message.fromBinary(
-							u8,
-							window.bin_file.name
-						);
-						resolve(msg);
+						var u8 = new Uint8Array(reader.result);
+						resolve(u8);
 					});
 					reader.onerror = () => {
 						throw new Error("读取文件出错");
@@ -149,17 +162,32 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 		function saveFiles(file) {
 			window.bin_file = file[0];
 		}
+
+		function download(filename, text) {
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+			element.setAttribute('download', filename);
+
+			element.style.display = 'none';
+			document.body.appendChild(element);
+
+			element.click();
+
+			document.body.removeChild(element);
+		}
 	</script>
 	<script>
 		//清空和隐藏文本框
 		function cleanall() {
-			if (window.confirm("确认清空文本框？")) {
+			if (window.confirm("确认清空输出？")) {
 				document.getElementById("text").value = '';
 				document.getElementById("output").value = '';
 				window.bin_file = undefined;
+				encrypted = undefined;
 				$("#output").hide();
 				$("#copy").hide();
 				$("#signmsg").hide();
+				$("download").hide();
 			}
 		}
 	</script>
@@ -168,28 +196,51 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			$("#output").hide();
 			$("#copy").hide();
 			$("#signmsg").hide();
+			$("#download").hide();
 			//判断是否是二进制数据
 			if (document.getElementById("bin_data").checked) {
 				$("#text").hide();
+				$("#output").hide();
+				$("#copy").hide();
+				$("#download").hide();
 				$("#verify_btn").hide();
 				$("#file").show();
+				$("#bin_warning").show();
 			} else {
 				$("#text").show();
+				$("#output").hide();
+				$("#copy").hide();
+				$("#download").hide();
 				$("#verify_btn").show();
 				$("#file").hide();
+				$("#bin_warning").hide();
 			}
 			$("#bin_data").click(function () {
 				if (document.getElementById("bin_data").checked) {
 					$("#text").hide("slow");
+					$("#output").hide("slow");
+					$("#copy").hide("slow");
+					$("#download").hide("slow");
 					$("#verify_btn").hide("slow");
 					$("#file").show("slow");
+					$("#bin_warning").show("slow");
 				} else {
-					$("#text").show("slow")
-					$("#verify_btn").show("slow");;
+					$("#text").show("slow");
+					$("#output").hide("slow");
+					$("#copy").hide("slow");
+					$("#download").hide("slow");
+					$("#verify_btn").show("slow");
 					$("#file").hide("slow");
+					$("#bin_warning").hide("slow");
 				}
 			});
 		})
+		//更改输入后自动隐藏输出
+		function inputOnChange() {
+			$("#output").hide("fast");
+			$("#copy").hide("fast");
+			$("#download").hide("fast");
+		}
 	</script>
 	<script>
 		//复制部分的代码
@@ -213,13 +264,17 @@ N8zi16+p6paYBKPO7e9qKVxCRLrc6uL9BVC+BQ==
 			</label>
 		</div>
 	</form>
-	<textarea id="text" rows="10" class="textarea-inherit" placeholder="请输入要加密或验证的信息"></textarea>
-	<input type="file" id="file" onchange="saveFiles(this.files)" /><br>
+	<div class="alert alert-warning alert-dismissible mx-auto" id="bin_warning" style="width: 95%;">
+		对于比较大的二进制文件（>500KiB），加密会比较缓慢，请耐心等待。对于超过 20MiB 的文件，建议使用 GNUPG 进行加密。</div>
+	<textarea id="text" rows="10" class="textarea-inherit" placeholder="请输入要加密或验证的信息"
+		oninput="inputOnChange()"></textarea>
+	<input type="file" id="file" onchange="saveFiles(this.files)" oninput="inputOnChange()" /><br>
 	<div class="row mx-auto" style="width: 95%;">
 		<button type="button" onclick="encrypt()" class="col btn btn-primary">加密</button>
 		<button type="button" onclick="verify()" class="col btn btn-primary" id="verify_btn">验证签名</button>
 		<button data-clipboard-target="#output" id="copy" class="col btn btn-primary">复制输出</button>
-		<button type="button" class="btn btn-danger" onclick="cleanall()">清空文本框</button><br>
+		<button id="download" class="col btn btn-warning">下载输出</button>
+		<button type="button" class="btn btn-danger" onclick="cleanall()">清空输出</button><br>
 	</div>
 	<div class="alert alert-success alert-dismissible mx-auto" id="signmsg" style="width: 95%;"></div>
 	<textarea id="output" rows="10" class="textarea-inherit" readonly></textarea>
